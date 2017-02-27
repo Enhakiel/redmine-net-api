@@ -6,3 +6,5 @@ Test/UnitTestRedmine.cs
 Test/Properties/AssemblyInfo.cs
 
 UnitTestRedmineNetApi/App.config 
+_ReSharper.Caches/
+.vs/
