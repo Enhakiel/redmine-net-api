@@ -20,9 +20,13 @@ using System.Xml;
 using System.Xml.Serialization;
 using Redmine.Net.Api.Extensions;
 using Redmine.Net.Api.Types;
+using Redmine.Net.Api.Exceptions;
 
 namespace Redmine.Net.Api.Internals
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal static class RedmineSerializer
     {
         /// <summary>
@@ -30,8 +34,11 @@ namespace Redmine.Net.Api.Internals
         /// </summary>
         /// <typeparam name="T">The type of objects to serialize.</typeparam>
         /// <param name="obj">The object to serialize.</param>
-        /// <returns>The System.String that contains the XML document.</returns>
+        /// <returns>
+        /// The System.String that contains the XML document.
+        /// </returns>
         /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         // ReSharper disable once InconsistentNaming
         private static string ToXML<T>(T obj) where T : class
         {
@@ -52,8 +59,10 @@ namespace Redmine.Net.Api.Internals
         /// </summary>
         /// <typeparam name="T">The type of objects to deserialize.</typeparam>
         /// <param name="xml">The System.String that contains the XML document to deserialize.</param>
-        /// <returns>The T object being deserialized.</returns>
-        /// <exception cref="System.InvalidOperationException"> An error occurred during deserialization. The original exception is available
+        /// <returns>
+        /// The T object being deserialized.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException">An error occurred during deserialization. The original exception is available
         /// using the System.Exception.InnerException property.</exception>
         // ReSharper disable once InconsistentNaming
         private static T FromXML<T>(string xml) where T : class
@@ -70,8 +79,10 @@ namespace Redmine.Net.Api.Internals
         /// </summary>
         /// <param name="xml">The System.String that contains the XML document to deserialize.</param>
         /// <param name="type">The type of objects to deserialize.</param>
-        /// <returns>The System.Object being deserialized.</returns>
-        /// <exception cref="System.InvalidOperationException"> An error occurred during deserialization. The original exception is available
+        /// <returns>
+        /// The System.Object being deserialized.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException">An error occurred during deserialization. The original exception is available
         /// using the System.Exception.InnerException property.</exception>
         // ReSharper disable once InconsistentNaming
         private static object FromXML(string xml, Type type)
@@ -83,18 +94,26 @@ namespace Redmine.Net.Api.Internals
             }
         }
 
+        /// <summary>
+        /// Serializes the specified object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">The object.</param>
+        /// <param name="mimeFormat">The MIME format.</param>
+        /// <returns></returns>
         public static string Serialize<T>(T obj, MimeFormat mimeFormat) where T : class, new()
         {
             return ToXML(obj);
         }
 
         /// <summary>
-        /// 
+        /// Deserializes the specified response.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="response"></param>
-        /// <param name="mimeFormat"></param>
+        /// <param name="response">The response.</param>
+        /// <param name="mimeFormat">The MIME format.</param>
         /// <returns></returns>
+        /// <exception cref="Redmine.Net.Api.Exceptions.RedmineException">could not deserialize:  + response</exception>
         public static T Deserialize<T>(string response, MimeFormat mimeFormat) where T : class, new()
         {
             if (string.IsNullOrEmpty(response)) throw new RedmineException("could not deserialize: " + response);
@@ -102,6 +121,14 @@ namespace Redmine.Net.Api.Internals
             return FromXML<T>(response);
         }
 
+        /// <summary>
+        /// Deserializes the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response">The response.</param>
+        /// <param name="mimeFormat">The MIME format.</param>
+        /// <returns></returns>
+        /// <exception cref="Redmine.Net.Api.Exceptions.RedmineException">web response is null!</exception>
         public static PaginatedObjects<T> DeserializeList<T>(string response, MimeFormat mimeFormat) where T : class, new()
         {
             if (string.IsNullOrEmpty(response)) throw new RedmineException("web response is null!");
@@ -109,6 +136,13 @@ namespace Redmine.Net.Api.Internals
             return XmlDeserializeList<T>(response);
         }
 
+        /// <summary>
+        /// XMLs the deserialize list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response">The response.</param>
+        /// <returns></returns>
+        /// <exception cref="Redmine.Net.Api.Exceptions.RedmineException">could not deserialize:  + response</exception>
         private static PaginatedObjects<T> XmlDeserializeList<T>(string response) where T : class, new()
         {
             if (string.IsNullOrEmpty(response)) throw new RedmineException("could not deserialize: " + response);

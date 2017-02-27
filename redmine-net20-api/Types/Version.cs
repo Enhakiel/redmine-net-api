@@ -86,6 +86,10 @@ namespace Redmine.Net.Api.Types
         [XmlArrayItem(RedmineKeys.CUSTOM_FIELD)]
         public IList<IssueCustomField> CustomFields { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public override void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -124,16 +128,25 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public override void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString(RedmineKeys.NAME, Name);
-            writer.WriteElementString(RedmineKeys.STATUS, Status.ToString());
-            writer.WriteElementString(RedmineKeys.SHARING, Sharing.ToString());
+            writer.WriteElementString(RedmineKeys.STATUS, Status.ToString().ToLowerInvariant());
+            writer.WriteElementString(RedmineKeys.SHARING, Sharing.ToString().ToLowerInvariant());
 
             writer.WriteDateOrEmpty(DueDate, RedmineKeys.DUE_DATE);
             writer.WriteElementString(RedmineKeys.DESCRIPTION, Description);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Version other)
         {
             if (other == null) return false;
@@ -148,23 +161,31 @@ namespace Redmine.Net.Api.Types
                 && (CustomFields != null ? CustomFields.Equals<IssueCustomField>(other.CustomFields) : other.CustomFields == null));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = base.GetHashCode();
-                hashCode = Utils.GetHashCode(Project, hashCode);
-                hashCode = Utils.GetHashCode(Description, hashCode);
-                hashCode = Utils.GetHashCode(Status, hashCode);
-                hashCode = Utils.GetHashCode(DueDate, hashCode);
-                hashCode = Utils.GetHashCode(Sharing, hashCode);
-                hashCode = Utils.GetHashCode(CreatedOn, hashCode);
-                hashCode = Utils.GetHashCode(UpdatedOn, hashCode);
-                hashCode = Utils.GetHashCode(CustomFields, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Project, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Description, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Status, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(DueDate, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Sharing, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CreatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(UpdatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CustomFields, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Version: {8}, Project={0}, Description={1}, Status={2}, DueDate={3}, Sharing={4}, CreatedOn={5}, UpdatedOn={6}, CustomFields={7}]",
@@ -172,19 +193,49 @@ namespace Redmine.Net.Api.Types
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public enum VersionSharing
     {
+        /// <summary>
+        /// 
+        /// </summary>
         none = 1,
+        /// <summary>
+        /// 
+        /// </summary>
         descendants,
+        /// <summary>
+        /// 
+        /// </summary>
         hierarchy,
+        /// <summary>
+        /// 
+        /// </summary>
         tree,
+        /// <summary>
+        /// 
+        /// </summary>
         system
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public enum VersionStatus
     {
+        /// <summary>
+        /// 
+        /// </summary>
         open = 1,
+        /// <summary>
+        /// 
+        /// </summary>
         locked,
+        /// <summary>
+        /// 
+        /// </summary>
         closed
     }
 }

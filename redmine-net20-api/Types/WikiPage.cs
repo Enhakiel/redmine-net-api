@@ -30,18 +30,33 @@ namespace Redmine.Net.Api.Types
     [XmlRoot(RedmineKeys.WIKI_PAGE)]
     public class WikiPage : Identifiable<WikiPage>, IXmlSerializable, IEquatable<WikiPage>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlElement(RedmineKeys.TITLE)]
         public string Title { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlElement(RedmineKeys.TEXT)]
         public string Text { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlElement(RedmineKeys.COMMENTS)]
         public string Comments { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlElement(RedmineKeys.VERSION)]
         public int Version { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlElement(RedmineKeys.AUTHOR)]
         public IdentifiableName Author { get; set; }
 
@@ -71,8 +86,16 @@ namespace Redmine.Net.Api.Types
 
         #region Implementation of IXmlSerializable
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -109,6 +132,10 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString(RedmineKeys.TEXT, Text);
@@ -120,6 +147,11 @@ namespace Redmine.Net.Api.Types
 
         #region Implementation of IEquatable<WikiPage>
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(WikiPage other)
         {
             if (other == null) return false;
@@ -134,23 +166,31 @@ namespace Redmine.Net.Api.Types
                 && UpdatedOn == other.UpdatedOn;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = base.GetHashCode();
-                hashCode = Utils.GetHashCode(Title, hashCode);
-                hashCode = Utils.GetHashCode(Text, hashCode);
-                hashCode = Utils.GetHashCode(Comments, hashCode);
-                hashCode = Utils.GetHashCode(Version, hashCode);
-                hashCode = Utils.GetHashCode(Author, hashCode);
-                hashCode = Utils.GetHashCode(CreatedOn, hashCode);
-                hashCode = Utils.GetHashCode(UpdatedOn, hashCode);
-                hashCode = Utils.GetHashCode(Attachments, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Title, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Text, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Comments, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Version, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Author, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CreatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(UpdatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Attachments, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[WikiPage: {8}, Title={0}, Text={1}, Comments={2}, Version={3}, Author={4}, CreatedOn={5}, UpdatedOn={6}, Attachments={7}]",

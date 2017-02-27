@@ -30,7 +30,7 @@ namespace Redmine.Net.Api.Types
     public class Project : IdentifiableName, IEquatable<Project>
     {
         /// <summary>
-        /// Gets or sets the identifier.
+        /// Gets or sets the identifier (Required).
         /// </summary>
         /// <value>The identifier.</value>
         [XmlElement(RedmineKeys.IDENTIFIER)]
@@ -71,6 +71,12 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.UPDATED_ON, IsNullable = true)]
         public DateTime? UpdatedOn { get; set; }
 
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        /// <value>
+        /// The status.
+        /// </value>
         [XmlElement(RedmineKeys.STATUS)]
         public ProjectStatus Status { get; set; }
 
@@ -84,6 +90,12 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.IS_PUBLIC)]
         public bool IsPublic { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [inherit members].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [inherit members]; otherwise, <c>false</c>.
+        /// </value>
         [XmlElement(RedmineKeys.INHERIT_MEMBERS)]
         public bool InheritMembers { get; set; }
 
@@ -97,10 +109,22 @@ namespace Redmine.Net.Api.Types
         [XmlArrayItem(RedmineKeys.TRACKER)]
         public IList<ProjectTracker> Trackers { get; set; }
 
+        /// <summary>
+        /// Gets or sets the custom fields.
+        /// </summary>
+        /// <value>
+        /// The custom fields.
+        /// </value>
         [XmlArray(RedmineKeys.CUSTOM_FIELDS)]
         [XmlArrayItem(RedmineKeys.CUSTOM_FIELD)]
         public IList<IssueCustomField> CustomFields { get; set; }
 
+        /// <summary>
+        /// Gets or sets the issue categories.
+        /// </summary>
+        /// <value>
+        /// The issue categories.
+        /// </value>
         [XmlArray(RedmineKeys.ISSUE_CATEGORIES)]
         [XmlArrayItem(RedmineKeys.ISSUE_CATEGORY)]
         public IList<ProjectIssueCategory> IssueCategories { get; set; }
@@ -108,6 +132,9 @@ namespace Redmine.Net.Api.Types
         /// <summary>
         /// since 2.6.0
         /// </summary>
+        /// <value>
+        /// The enabled modules.
+        /// </value>
         [XmlArray(RedmineKeys.ENABLED_MODULES)]
         [XmlArrayItem(RedmineKeys.ENABLED_MODULE)]
         public IList<ProjectEnabledModule> EnabledModules { get; set; }
@@ -164,13 +191,16 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="writer"></param>
         public override void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString(RedmineKeys.NAME, Name);
             writer.WriteElementString(RedmineKeys.IDENTIFIER, Identifier);
             writer.WriteElementString(RedmineKeys.DESCRIPTION, Description);
-            writer.WriteElementString(RedmineKeys.INHERIT_MEMBERS, InheritMembers.ToString());
-            writer.WriteElementString(RedmineKeys.IS_PUBLIC, IsPublic.ToString());
+            writer.WriteElementString(RedmineKeys.INHERIT_MEMBERS, InheritMembers.ToString().ToLowerInvariant());
+            writer.WriteElementString(RedmineKeys.IS_PUBLIC, IsPublic.ToString().ToLowerInvariant());
             writer.WriteIdOrEmpty(Parent, RedmineKeys.PARENT_ID);
             writer.WriteElementString(RedmineKeys.HOMEPAGE, HomePage);
 
@@ -182,6 +212,11 @@ namespace Redmine.Net.Api.Types
             writer.WriteArray(CustomFields, RedmineKeys.CUSTOM_FIELDS);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Project other)
         {
             if (other == null) return false;
@@ -203,26 +238,37 @@ namespace Redmine.Net.Api.Types
             );
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
-            var hashCode = base.GetHashCode();
-            hashCode = Utils.GetHashCode(Identifier, hashCode);
-            hashCode = Utils.GetHashCode(Description, hashCode);
-            hashCode = Utils.GetHashCode(Parent, hashCode);
-            hashCode = Utils.GetHashCode(HomePage, hashCode);
-            hashCode = Utils.GetHashCode(CreatedOn, hashCode);
-            hashCode = Utils.GetHashCode(UpdatedOn, hashCode);
-            hashCode = Utils.GetHashCode(Status, hashCode);
-            hashCode = Utils.GetHashCode(IsPublic, hashCode);
-            hashCode = Utils.GetHashCode(InheritMembers, hashCode);
-            hashCode = Utils.GetHashCode(Trackers, hashCode);
-            hashCode = Utils.GetHashCode(CustomFields, hashCode);
-            hashCode = Utils.GetHashCode(IssueCategories, hashCode);
-            hashCode = Utils.GetHashCode(EnabledModules, hashCode);
+	        unchecked
+	        {
+		        var hashCode = base.GetHashCode();
+		        hashCode = HashCodeHelper.GetHashCode(Identifier, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(Description, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(Parent, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(HomePage, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(CreatedOn, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(UpdatedOn, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(Status, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(IsPublic, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(InheritMembers, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(Trackers, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(CustomFields, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(IssueCategories, hashCode);
+		        hashCode = HashCodeHelper.GetHashCode(EnabledModules, hashCode);
 
-            return hashCode;
+		        return hashCode;
+	        }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Project: {13}, Identifier={0}, Description={1}, Parent={2}, HomePage={3}, CreatedOn={4}, UpdatedOn={5}, Status={6}, IsPublic={7}, InheritMembers={8}, Trackers={9}, CustomFields={10}, IssueCategories={11}, EnabledModules={12}]",

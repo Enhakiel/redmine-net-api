@@ -42,6 +42,10 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.PROJECT_ID)]
         public int? ProjectId { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public override void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -68,8 +72,17 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public override void WriteXml(XmlWriter writer) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Query other)
         {
             if (other == null) return false;
@@ -77,20 +90,27 @@ namespace Redmine.Net.Api.Types
             return (other.Id == Id && other.Name == Name && other.IsPublic == IsPublic && other.ProjectId == ProjectId);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Id, hashCode);
-                hashCode = Utils.GetHashCode(Name, hashCode);
-                hashCode = Utils.GetHashCode(IsPublic, hashCode);
-                hashCode = Utils.GetHashCode(ProjectId, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Id, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Name, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(IsPublic, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(ProjectId, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Query: {2}, IsPublic={0}, ProjectId={1}]", IsPublic, ProjectId, base.ToString());

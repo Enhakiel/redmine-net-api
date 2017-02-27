@@ -38,13 +38,13 @@ namespace Redmine.Net.Api.Types
         public string Property { get; set; }
 
         /// <summary>
-        /// Gets or sets the status id.
+        /// Gets or sets the name.
         /// </summary>
         /// <value>
-        /// The status id.
+        /// The name.
         /// </value>
-        [XmlAttribute(RedmineKeys.STATUS_ID)]
-        public string StatusId { get; set; }
+        [XmlAttribute(RedmineKeys.NAME)]
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the old value.
@@ -64,12 +64,20 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.NEW_VALUE)]
         public string NewValue { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             Property = reader.GetAttribute(RedmineKeys.PROPERTY);
-            StatusId = reader.GetAttribute(RedmineKeys.STATUS_ID);
+            Name = reader.GetAttribute(RedmineKeys.NAME);
 
             reader.Read();
 
@@ -92,17 +100,31 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Detail other)
         {
             if (other == null) return false;
             return (Property != null ? Property.Equals(other.Property) : other.Property == null)
-                && (StatusId != null ? StatusId.Equals(other.StatusId) : other.StatusId == null)
+                && (Name != null ? Name.Equals(other.Name) : other.Name == null)
                 && (OldValue != null ? OldValue.Equals(other.OldValue) : other.OldValue == null)
                 && (NewValue != null ? NewValue.Equals(other.NewValue) : other.NewValue == null);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -111,23 +133,31 @@ namespace Redmine.Net.Api.Types
             return Equals(obj as Detail);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Property, hashCode);
-                hashCode = Utils.GetHashCode(StatusId, hashCode);
-                hashCode = Utils.GetHashCode(OldValue, hashCode);
-                hashCode = Utils.GetHashCode(NewValue, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Property, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Name, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(OldValue, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(NewValue, hashCode);
 
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("[Detail: Property={0}, StatusId={1}, OldValue={2}, NewValue={3}]", Property, StatusId, OldValue, NewValue);
+            return string.Format("[Detail: Property={0}, Name={1}, OldValue={2}, NewValue={3}]", Property, Name, OldValue, NewValue);
         }
     }
 }

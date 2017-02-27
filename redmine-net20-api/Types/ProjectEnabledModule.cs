@@ -18,22 +18,26 @@ using System.Xml.Serialization;
 
 namespace Redmine.Net.Api.Types
 {
-
-    [XmlRoot(RedmineKeys.ENABLED_MODULE)]
     /// <summary>
     /// the module name: boards, calendar, documents, files, gantt, issue_tracking, news, repository, time_tracking, wiki.
     /// </summary>
-    public class ProjectEnabledModule : IdentifiableName, IValue
+    [XmlRoot(RedmineKeys.ENABLED_MODULE)]
+ public class ProjectEnabledModule : IdentifiableName, IValue
     {
         #region IValue implementation
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string Value
         {
             get { return Name; }
         }
 
         #endregion
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[ProjectEnabledModule: {0}]", base.ToString());

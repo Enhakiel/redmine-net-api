@@ -67,18 +67,31 @@ namespace Redmine.Net.Api.Types
         [XmlArrayItem(RedmineKeys.ROLE)]
         public List<MembershipRole> Roles { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(ProjectMembership other)
         {
             if (other == null) return false;
-            return (Id == other.Id 
-                && Project.Equals(other.Project) 
-                && Roles.Equals<MembershipRole>(other.Roles )
+            return (Id == other.Id
+                && Project.Equals(other.Project)
+                && Roles.Equals<MembershipRole>(other.Roles)
                 && (User != null ? User.Equals(other.User) : other.User == null)
                 && (Group != null ? Group.Equals(other.Group) : other.Group == null));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -107,34 +120,37 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteIdIfNotNull(User, RedmineKeys.USER_ID);
             writer.WriteArray(Roles, RedmineKeys.ROLE_IDS, typeof(MembershipRole), RedmineKeys.ROLE_ID);
-            //
-            //            writer.WriteStartElement(RedmineKeys.ROLE_IDS);
-            //            writer.WriteAttributeString("type", "array");
-            //            foreach (var role in Roles)
-            //            {
-            //                new XmlSerializer(role.GetType(), new XmlAttributeOverrides(), null, new XmlRootAttribute(RedmineKeys.ROLE_ID), string.Empty)
-            //					.Serialize(writer, role);
-            //            }
-            //            writer.WriteEndElement();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = base.GetHashCode();
-                hashCode = Utils.GetHashCode(Project, hashCode);
-                hashCode = Utils.GetHashCode(User, hashCode);
-                hashCode = Utils.GetHashCode(Group, hashCode);
-                hashCode = Utils.GetHashCode(Roles, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Project, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(User, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Group, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Roles, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[ProjectMembership: {4}, Project={0}, User={1}, Group={2}, Roles={3}]", Project, User, Group, Roles, base.ToString());

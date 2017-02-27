@@ -24,8 +24,15 @@ namespace Redmine.Net.Api.Types
     [XmlRoot(RedmineKeys.TRACKER)]
 	public class ProjectTracker : IdentifiableName,  IValue
     {
+        /// <summary>
+        /// 
+        /// </summary>
 		public string Value{get{return Id.ToString ();}}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
 		public override string ToString ()
 		{
 			return string.Format ("[ProjectTracker: {0}]", base.ToString());

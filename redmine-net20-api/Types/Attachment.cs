@@ -78,8 +78,16 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.CREATED_ON)]
         public DateTime? CreatedOn { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -114,8 +122,17 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Attachment other)
         {
             if (other == null) return false;
@@ -129,23 +146,31 @@ namespace Redmine.Net.Api.Types
                 && ContentUrl == other.ContentUrl);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = base.GetHashCode();
-                hashCode = Utils.GetHashCode(FileName, hashCode);
-                hashCode = Utils.GetHashCode(FileSize, hashCode);
-                hashCode = Utils.GetHashCode(ContentType, hashCode);
-                hashCode = Utils.GetHashCode(Author, hashCode);
-                hashCode = Utils.GetHashCode(CreatedOn, hashCode);
-                hashCode = Utils.GetHashCode(Description, hashCode);
-                hashCode = Utils.GetHashCode(ContentUrl, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(FileName, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(FileSize, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(ContentType, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Author, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CreatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Description, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(ContentUrl, hashCode);
 
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Attachment: {7}, FileName={0}, FileSize={1}, ContentType={2}, Description={3}, ContentUrl={4}, Author={5}, CreatedOn={6}]",

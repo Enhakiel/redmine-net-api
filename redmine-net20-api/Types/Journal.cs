@@ -28,17 +28,8 @@ namespace Redmine.Net.Api.Types
     /// 
     /// </summary>
     [XmlRoot(RedmineKeys.JOURNAL)]
-    public class Journal : IXmlSerializable, IEquatable<Journal>
+    public class Journal : Identifiable<Journal>, IEquatable<Journal>, IXmlSerializable
     {
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        /// <value>
-        /// The id.
-        /// </value>
-        [XmlAttribute(RedmineKeys.ID)]
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the user.
         /// </summary>
@@ -76,8 +67,16 @@ namespace Redmine.Net.Api.Types
         [XmlArrayItem(RedmineKeys.DETAIL)]
         public IList<Detail> Details { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             Id = reader.ReadAttributeAsInt(RedmineKeys.ID);
@@ -106,8 +105,17 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Journal other)
         {
             if (other == null) return false;
@@ -118,6 +126,11 @@ namespace Redmine.Net.Api.Types
                 && (Details != null ? Details.Equals<Detail>(other.Details) : other.Details == null );
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -126,20 +139,28 @@ namespace Redmine.Net.Api.Types
             return Equals(obj as Journal);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Id, hashCode);
-                hashCode = Utils.GetHashCode(User, hashCode);
-                hashCode = Utils.GetHashCode(Notes, hashCode);
-                hashCode = Utils.GetHashCode(CreatedOn, hashCode);
-                hashCode = Utils.GetHashCode(Details, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Id, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(User, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Notes, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CreatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Details, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Journal: Id={0}, User={1}, Notes={2}, CreatedOn={3}, Details={4}]", Id, User, Notes, CreatedOn, Details);

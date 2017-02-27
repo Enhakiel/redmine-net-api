@@ -22,6 +22,9 @@ using Redmine.Net.Api.Internals;
 
 namespace Redmine.Net.Api.Types
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [XmlRoot(RedmineKeys.ISSUE)]
     public class IssueChild : Identifiable<IssueChild>, IXmlSerializable, IEquatable<IssueChild>, ICloneable
     {
@@ -39,8 +42,16 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.SUBJECT)]
         public String Subject { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             Id = Convert.ToInt32(reader.GetAttribute(RedmineKeys.ID));
@@ -65,32 +76,53 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             var issueChild = new IssueChild { Subject = Subject, Tracker = Tracker };
             return issueChild;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(IssueChild other)
         {
             if (other == null) return false;
             return (Id == other.Id && Tracker == other.Tracker && Subject == other.Subject);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Id, hashCode);
-                hashCode = Utils.GetHashCode(Tracker, hashCode);
-                hashCode = Utils.GetHashCode(Subject, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Id, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Tracker, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Subject, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[IssueChild: {0}, Tracker={1}, Subject={2}]", base.ToString(), Tracker, Subject);

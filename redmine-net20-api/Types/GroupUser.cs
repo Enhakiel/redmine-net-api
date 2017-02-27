@@ -18,9 +18,16 @@ using System.Xml.Serialization;
 
 namespace Redmine.Net.Api.Types
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [XmlRoot(RedmineKeys.USER)]
     public class GroupUser : IdentifiableName
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
 		public override string ToString ()
 		{
 			return string.Format ("[GroupUser: {0}]", base.ToString());

@@ -53,8 +53,16 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.COMMITTED_ON, IsNullable = true)]
         public DateTime? CommittedOn { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -81,8 +89,17 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(ChangeSet other)
         {
             if (other == null) return false;
@@ -93,6 +110,11 @@ namespace Redmine.Net.Api.Types
                 && CommittedOn == other.CommittedOn;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -101,19 +123,27 @@ namespace Redmine.Net.Api.Types
             return Equals(obj as ChangeSet);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Revision, hashCode);
-                hashCode = Utils.GetHashCode(User, hashCode);
-                hashCode = Utils.GetHashCode(Comments, hashCode);
-                hashCode = Utils.GetHashCode(CommittedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Revision, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(User, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Comments, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CommittedOn, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("Revision: {0}, User: '{1}', CommitedOn: {2}, Comments: '{3}'", Revision, User, CommittedOn, Comments);

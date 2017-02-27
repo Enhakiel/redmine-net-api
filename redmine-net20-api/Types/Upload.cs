@@ -56,8 +56,19 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.DESCRIPTION)]
         public string Description { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+        /// </returns>
         public bool Equals(Upload other)
         {
             return other != null
@@ -67,6 +78,11 @@ namespace Redmine.Net.Api.Types
                 && ContentType.Equals(other.ContentType);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -75,19 +91,27 @@ namespace Redmine.Net.Api.Types
             return Equals(obj as Upload);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Token, hashCode);
-                hashCode = Utils.GetHashCode(FileName, hashCode);
-                hashCode = Utils.GetHashCode(Description, hashCode);
-                hashCode = Utils.GetHashCode(ContentType, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Token, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(FileName, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Description, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(ContentType, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Upload: Token={0}, FileName={1}, ContentType={2}, Description={3}]", Token, FileName, ContentType, Description);

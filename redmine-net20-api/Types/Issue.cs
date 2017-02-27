@@ -110,6 +110,12 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.DONE_RATIO, IsNullable = true)]
         public float? DoneRatio { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [private notes].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [private notes]; otherwise, <c>false</c>.
+        /// </value>
         [XmlElement(RedmineKeys.PRIVATE_NOTES)]
         public bool PrivateNotes { get; set; }
 
@@ -259,15 +265,26 @@ namespace Redmine.Net.Api.Types
         [XmlArrayItem(RedmineKeys.UPLOAD)]
         public IList<Upload> Uploads { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlArray(RedmineKeys.WATCHERS)]
         [XmlArrayItem(RedmineKeys.WATCHER)]
         public IList<Watcher> Watchers { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema()
         {
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -409,6 +426,10 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString(RedmineKeys.SUBJECT, Subject);
@@ -445,6 +466,10 @@ namespace Redmine.Net.Api.Types
             writer.WriteListElements(Watchers as IList<IValue>, RedmineKeys.WATCHER_USER_IDS);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             var issue = new Issue
@@ -471,10 +496,14 @@ namespace Redmine.Net.Api.Types
             return issue;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Issue other)
         {
-            if (other == null)
-                return false;
+            if (other == null) return false;
             return (
                 Id == other.Id
             && Project == other.Project
@@ -507,6 +536,10 @@ namespace Redmine.Net.Api.Types
             );
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Issue: {30}, Project={0}, Tracker={1}, Status={2}, Priority={3}, Author={4}, Category={5}, Subject={6}, Description={7}, StartDate={8}, DueDate={9}, DoneRatio={10}, PrivateNotes={11}, EstimatedHours={12}, SpentHours={13}, CustomFields={14}, CreatedOn={15}, UpdatedOn={16}, ClosedOn={17}, Notes={18}, AssignedTo={19}, ParentIssue={20}, FixedVersion={21}, IsPrivate={22}, Journals={23}, Changesets={24}, Attachments={25}, Relations={26}, Children={27}, Uploads={28}, Watchers={29}]",
@@ -515,44 +548,48 @@ namespace Redmine.Net.Api.Types
                 IsPrivate, Journals, Changesets, Attachments, Relations, Children, Uploads, Watchers, base.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var hashCode = base.GetHashCode();
 
-            hashCode = Utils.GetHashCode(Project, hashCode);
-            hashCode = Utils.GetHashCode(Tracker, hashCode);
-            hashCode = Utils.GetHashCode(Status, hashCode);
-            hashCode = Utils.GetHashCode(Priority, hashCode);
-            hashCode = Utils.GetHashCode(Author, hashCode);
-            hashCode = Utils.GetHashCode(Category, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Project, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Tracker, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Status, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Priority, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Author, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Category, hashCode);
 
-            hashCode = Utils.GetHashCode(Subject, hashCode);
-            hashCode = Utils.GetHashCode(Description, hashCode);
-            hashCode = Utils.GetHashCode(StartDate, hashCode);
-            hashCode = Utils.GetHashCode(Project, hashCode);
-            hashCode = Utils.GetHashCode(DueDate, hashCode);
-            hashCode = Utils.GetHashCode(DoneRatio, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Subject, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Description, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(StartDate, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Project, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(DueDate, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(DoneRatio, hashCode);
 
-            hashCode = Utils.GetHashCode(PrivateNotes, hashCode);
-            hashCode = Utils.GetHashCode(EstimatedHours, hashCode);
-            hashCode = Utils.GetHashCode(SpentHours, hashCode);
-            hashCode = Utils.GetHashCode(CreatedOn, hashCode);
-            hashCode = Utils.GetHashCode(UpdatedOn, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(PrivateNotes, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(EstimatedHours, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(SpentHours, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(CreatedOn, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(UpdatedOn, hashCode);
 
-            hashCode = Utils.GetHashCode(Notes, hashCode);
-            hashCode = Utils.GetHashCode(AssignedTo, hashCode);
-            hashCode = Utils.GetHashCode(ParentIssue, hashCode);
-            hashCode = Utils.GetHashCode(FixedVersion, hashCode);
-            hashCode = Utils.GetHashCode(IsPrivate, hashCode);
-            hashCode = Utils.GetHashCode(Journals, hashCode);
-            hashCode = Utils.GetHashCode(CustomFields, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Notes, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(AssignedTo, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(ParentIssue, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(FixedVersion, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(IsPrivate, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Journals, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(CustomFields, hashCode);
 
-            hashCode = Utils.GetHashCode(Changesets, hashCode);
-            hashCode = Utils.GetHashCode(Attachments, hashCode);
-            hashCode = Utils.GetHashCode(Relations, hashCode);
-            hashCode = Utils.GetHashCode(Children, hashCode);
-            hashCode = Utils.GetHashCode(Uploads, hashCode);
-            hashCode = Utils.GetHashCode(Watchers, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Changesets, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Attachments, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Relations, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Children, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Uploads, hashCode);
+            hashCode = HashCodeHelper.GetHashCode(Watchers, hashCode);
 
             return hashCode;
         }

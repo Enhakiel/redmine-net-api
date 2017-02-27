@@ -38,9 +38,16 @@ namespace Redmine.Net.Api.Types
         [XmlArrayItem(RedmineKeys.VALUE)]
         public IList<CustomFieldValue> Values { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlAttribute(RedmineKeys.MULTIPLE)]
         public bool Multiple { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public override void ReadXml(XmlReader reader)
         {
             Id = Convert.ToInt32(reader.GetAttribute(RedmineKeys.ID));
@@ -60,6 +67,10 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public override void WriteXml(XmlWriter writer)
         {
             if (Values == null) return;
@@ -69,12 +80,6 @@ namespace Redmine.Net.Api.Types
             if (itemsCount > 1)
             {
                 writer.WriteArrayStringElement(Values, RedmineKeys.VALUE, GetValue);
-                //                writer.WriteStartElement(RedmineKeys.VALUE);
-                //                writer.WriteAttributeString("type", "array");
-                //
-                //                foreach (var v in Values) writer.WriteElementString(RedmineKeys.VALUE, v.Info);
-                //
-                //                writer.WriteEndElement();
             }
             else
             {
@@ -82,36 +87,58 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(IssueCustomField other)
         {
             if (other == null) return false;
             return (Id == other.Id && Name == other.Name && Multiple == other.Multiple && Values.Equals<CustomFieldValue>(other.Values));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             var issueCustomField = new IssueCustomField { Multiple = Multiple, Values = Values.Clone<CustomFieldValue>() };
             return issueCustomField;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[IssueCustomField: {2} Values={0}, Multiple={1}]", Values, Multiple, base.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Id, hashCode);
-                hashCode = Utils.GetHashCode(Name, hashCode);
-                hashCode = Utils.GetHashCode(Values, hashCode);
-                hashCode = Utils.GetHashCode(Multiple, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Id, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Name, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Values, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Multiple, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public string GetValue(object item)
         {
             return ((CustomFieldValue)item).Info;

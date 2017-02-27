@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 using Redmine.Net.Api.Extensions;
 using Redmine.Net.Api.Internals;
@@ -28,26 +27,8 @@ namespace Redmine.Net.Api.Types
     /// Availability 2.1
     /// </summary>
     [XmlRoot(RedmineKeys.GROUP)]
-    public class Group : IXmlSerializable, IEquatable<Group>
+    public class Group : IdentifiableName, IEquatable<Group>
     {
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        /// <value>
-        /// The id.
-        /// </value>
-        [XmlElement(RedmineKeys.ID)]
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        [XmlElement(RedmineKeys.NAME)]
-        public string Name { get; set; }
-
         /// <summary>
         /// Represents the group's users.
         /// </summary>
@@ -74,18 +55,10 @@ namespace Redmine.Net.Api.Types
         #region Implementation of IXmlSerializable
 
         /// <summary>
-        /// This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
-        /// </returns>
-        public XmlSchema GetSchema() { return null; }
-
-        /// <summary>
         /// Generates an object from its XML representation.
         /// </summary>
         /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized. </param>
-        public void ReadXml(XmlReader reader)
+        public override void ReadXml(XmlReader reader)
         {
             reader.Read();
             while (!reader.EOF)
@@ -117,19 +90,10 @@ namespace Redmine.Net.Api.Types
         /// Converts an object into its XML representation.
         /// </summary>
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized. </param>
-        public void WriteXml(XmlWriter writer)
+        public override void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString(RedmineKeys.NAME, Name);
             writer.WriteArrayIds(Users, RedmineKeys.USER_IDS, typeof(int), GetGroupUserId);
-            //            if (Users == null) return;
-            //
-            //            writer.WriteStartElement(RedmineKeys.USER_IDS);
-            //            writer.WriteAttributeString("type", "array");
-            //            foreach (var userId in Users)
-            //            {
-            //                new XmlSerializer(typeof(int)).Serialize(writer, userId.Id);
-            //            }
-            //            writer.WriteEndElement();
         }
 
         #endregion
@@ -153,6 +117,11 @@ namespace Redmine.Net.Api.Types
                 && (Memberships != null ? Memberships.Equals<Membership>(other.Memberships) : other.Memberships == null);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -161,32 +130,43 @@ namespace Redmine.Net.Api.Types
             return Equals(obj as Group);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Id, hashCode);
-                hashCode = Utils.GetHashCode(Name, hashCode);
-                hashCode = Utils.GetHashCode(Users, hashCode);
-                hashCode = Utils.GetHashCode(CustomFields, hashCode);
-                hashCode = Utils.GetHashCode(Memberships, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Id, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Name, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Users, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CustomFields, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Memberships, hashCode);
                 return hashCode;
             }
         }
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Group: Id={0}, Name={1}, Users={2}, CustomFields={3}, Memberships={4}]", Id, Name, Users, CustomFields, Memberships);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gu"></param>
+        /// <returns></returns>
         public int GetGroupUserId(object gu)
         {
             return ((GroupUser)gu).Id;
         }
     }
-
-    
 }

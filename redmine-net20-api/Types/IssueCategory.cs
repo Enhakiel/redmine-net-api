@@ -56,14 +56,27 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.NAME)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(IssueCategory other)
         {
             if (other == null) return false;
             return (Id == other.Id && Project == other.Project && AsignTo == other.AsignTo && Name == other.Name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -90,6 +103,10 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteIdIfNotNull(Project, RedmineKeys.PROJECT_ID);
@@ -97,19 +114,27 @@ namespace Redmine.Net.Api.Types
             writer.WriteIdIfNotNull(AsignTo, RedmineKeys.ASSIGNED_TO_ID);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Id, hashCode);
-                hashCode = Utils.GetHashCode(Project, hashCode);
-                hashCode = Utils.GetHashCode(AsignTo, hashCode);
-                hashCode = Utils.GetHashCode(Name, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Id, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Project, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(AsignTo, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Name, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[IssueCategory: {3}, Project={0}, AsignTo={1}, Name={2}]", Project, AsignTo, Name, base.ToString());

@@ -71,8 +71,16 @@ namespace Redmine.Net.Api.Types
         [XmlElement(RedmineKeys.CREATED_ON, IsNullable = true)]
         public DateTime? CreatedOn { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -105,8 +113,17 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(News other)
         {
             if (other == null) return false;
@@ -118,24 +135,30 @@ namespace Redmine.Net.Api.Types
                 && Description == other.Description
                 && CreatedOn == other.CreatedOn);
         }
-
-
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = base.GetHashCode();
-                hashCode = Utils.GetHashCode(Project, hashCode);
-                hashCode = Utils.GetHashCode(Author, hashCode);
-                hashCode = Utils.GetHashCode(Title, hashCode);
-                hashCode = Utils.GetHashCode(Summary, hashCode);
-                hashCode = Utils.GetHashCode(Description, hashCode);
-                hashCode = Utils.GetHashCode(CreatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Project, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Author, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Title, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Summary, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Description, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CreatedOn, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[News: {6}, Project={0}, Author={1}, Title={2}, Summary={3}, Description={4}, CreatedOn={5}]",

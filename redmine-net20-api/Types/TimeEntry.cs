@@ -120,14 +120,26 @@ namespace Redmine.Net.Api.Types
         [XmlArrayItem(RedmineKeys.CUSTOM_FIELD)]
         public IList<IssueCustomField> CustomFields { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             var timeEntry = new TimeEntry { Activity = Activity, Comments = Comments, Hours = Hours, Issue = Issue, Project = Project, SpentOn = SpentOn, User = User, CustomFields = CustomFields };
             return timeEntry;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(XmlReader reader)
         {
             reader.Read();
@@ -174,6 +186,10 @@ namespace Redmine.Net.Api.Types
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteIdIfNotNull(Issue, RedmineKeys.ISSUE_ID);
@@ -186,8 +202,15 @@ namespace Redmine.Net.Api.Types
             writer.WriteValueOrEmpty<decimal>(Hours, RedmineKeys.HOURS);
             writer.WriteIdIfNotNull(Activity, RedmineKeys.ACTIVITY_ID);
             writer.WriteElementString(RedmineKeys.COMMENTS, Comments);
+
+            writer.WriteArray(CustomFields, RedmineKeys.CUSTOM_FIELDS);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(TimeEntry other)
         {
             if (other == null) return false;
@@ -201,28 +224,36 @@ namespace Redmine.Net.Api.Types
                 && User == other.User
                 && CreatedOn == other.CreatedOn
                 && UpdatedOn == other.UpdatedOn
-                && (CustomFields!= null ? CustomFields.Equals<IssueCustomField>(other.CustomFields) : other.CustomFields== null));
+                && (CustomFields != null ? CustomFields.Equals<IssueCustomField>(other.CustomFields) : other.CustomFields == null));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = base.GetHashCode();
-                hashCode = Utils.GetHashCode(Issue, hashCode);
-                hashCode = Utils.GetHashCode(Project, hashCode);
-                hashCode = Utils.GetHashCode(SpentOn, hashCode);
-                hashCode = Utils.GetHashCode(Hours, hashCode);
-                hashCode = Utils.GetHashCode(Activity, hashCode);
-                hashCode = Utils.GetHashCode(User, hashCode);
-                hashCode = Utils.GetHashCode(Comments, hashCode);
-                hashCode = Utils.GetHashCode(CreatedOn, hashCode);
-                hashCode = Utils.GetHashCode(UpdatedOn, hashCode);
-                hashCode = Utils.GetHashCode(CustomFields, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Issue, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Project, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(SpentOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Hours, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Activity, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(User, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Comments, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CreatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(UpdatedOn, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(CustomFields, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[TimeEntry: {10}, Issue={0}, Project={1}, SpentOn={2}, Hours={3}, Activity={4}, User={5}, Comments={6}, CreatedOn={7}, UpdatedOn={8}, CustomFields={9}]",

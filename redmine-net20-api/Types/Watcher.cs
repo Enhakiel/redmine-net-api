@@ -19,28 +19,43 @@ using System.Xml.Serialization;
 
 namespace Redmine.Net.Api.Types
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [XmlRoot(RedmineKeys.USER)]
-	public class Watcher : IdentifiableName, IValue, ICloneable
+    public class Watcher : IdentifiableName, IValue, ICloneable
     {
-		#region IValue implementation
+        #region IValue implementation
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Value
+        {
+            get
+            {
+                return Id.ToString();
+            }
+        }
 
-		public string Value {
-			get {
-				return Id.ToString();
-			}
-		}
+        #endregion
 
-		#endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("[Watcher: {0}]", base.ToString());
+        }
 
-		public override string ToString ()
-		{
-			return string.Format ("[Watcher: {0}]", base.ToString());
-		}
-
-		public object Clone()
-		{
-			var watcher = new Watcher{Id = Id, Name = Name};
-			return watcher;
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            var watcher = new Watcher { Id = Id, Name = Name };
+            return watcher;
+        }
     }
 }

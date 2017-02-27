@@ -20,17 +20,33 @@ using Redmine.Net.Api.Internals;
 
 namespace Redmine.Net.Api.Types
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [XmlRoot(RedmineKeys.PERMISSION)]
     public class Permission : IEquatable<Permission>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlText]
         public string Info { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Permission other)
         {
             return Info == other.Info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -39,16 +55,24 @@ namespace Redmine.Net.Api.Types
             return Equals(obj as Permission);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Info, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Info, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[Permission: Info={0}]", Info);

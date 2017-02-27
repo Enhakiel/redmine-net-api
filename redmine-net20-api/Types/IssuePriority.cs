@@ -16,7 +16,6 @@
 
 using System;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 using Redmine.Net.Api.Internals;
 
@@ -26,38 +25,21 @@ namespace Redmine.Net.Api.Types
     /// Availability 2.2
     /// </summary>
     [XmlRoot(RedmineKeys.ISSUE_PRIORITY)]
-    public class IssuePriority : IXmlSerializable, IEquatable<IssuePriority>
+    public class IssuePriority : IdentifiableName, IEquatable<IssuePriority>
     {
         /// <summary>
-        /// Gets or sets the id.
+        /// 
         /// </summary>
-        /// <value>
-        /// The id.
-        /// </value>
-        [XmlElement(RedmineKeys.ID)]
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        [XmlElement(RedmineKeys.NAME)]
-        public string Name { get; set; }
-
         [XmlElement(RedmineKeys.IS_DEFAULT)]
         public bool IsDefault { get; set; }
 
         #region Implementation of IXmlSerializable
 
-        public XmlSchema GetSchema() { return null; }
-
         /// <summary>
         /// Generates an object from its XML representation.
         /// </summary>
         /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
-        public void ReadXml(XmlReader reader)
+        public override void ReadXml(XmlReader reader)
         {
             reader.Read();
             while (!reader.EOF)
@@ -81,12 +63,20 @@ namespace Redmine.Net.Api.Types
             }
         }
 
-        public void WriteXml(XmlWriter writer) { }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
+        public override void WriteXml(XmlWriter writer) { }
 
         #endregion
 
         #region Implementation of IEquatable<IssuePriority>
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(IssuePriority other)
         {
             if (other == null) return false;
@@ -94,6 +84,11 @@ namespace Redmine.Net.Api.Types
             return Id == other.Id && Name == other.Name && IsDefault == other.IsDefault;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -102,18 +97,26 @@ namespace Redmine.Net.Api.Types
             return Equals(obj as IssuePriority);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 var hashCode = 13;
-                hashCode = Utils.GetHashCode(Id, hashCode);
-                hashCode = Utils.GetHashCode(Name, hashCode);
-                hashCode = Utils.GetHashCode(IsDefault, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Id, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(Name, hashCode);
+                hashCode = HashCodeHelper.GetHashCode(IsDefault, hashCode);
                 return hashCode;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("[IssuePriority: Id={0}, Name={1}, IsDefault={2}]", Id, Name, IsDefault);
